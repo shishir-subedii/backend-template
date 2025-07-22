@@ -5,7 +5,7 @@ import { UsersModule } from 'src/user/user.module';
 import { JwtModule } from '@nestjs/jwt';
 
 @Module({
-  imports: [UsersModule, JwtModule.register({})
+  imports: [UsersModule, JwtModule.register({}) //We can remove JWT module config because there is a global JwtModule in src/common/jwtmodule/jwtmodule.module.ts
   ],
   controllers: [AuthController],
   providers: [AuthService],

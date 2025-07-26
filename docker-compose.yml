@@ -12,7 +12,7 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - mysql_data:/var/lib/mysql
+      - mysql_template_volume:/var/lib/mysql
 
 volumes:
-  mysql_data:
+  mysql_template_volume:

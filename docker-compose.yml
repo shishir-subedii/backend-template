@@ -1,10 +1,10 @@
 services:
   postgres:
     image: postgres:15
-    container_name: mini-stock-tracker-postgres
+    container_name: pql-template-container
     restart: always
     environment:
-      POSTGRES_DB: mini-stock-tracker
+      POSTGRES_DB: pql-template-db
       POSTGRES_USER: user
       POSTGRES_PASSWORD: password
     ports:

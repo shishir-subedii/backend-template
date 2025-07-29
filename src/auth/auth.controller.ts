@@ -33,7 +33,7 @@ export class AuthController {
   async register(@Body() userData: UserRegisterDto) {
     const user = await this.authService.register(userData);
     return {
-      success: true,
+      // success: true,
       message: 'User registered successfully',
       data: user,
     };
@@ -61,7 +61,7 @@ export class AuthController {
   async login(@Body() loginData: UserLoginDto) {
     const responseData = await this.authService.login(loginData);
     return {
-      success: true,
+      // success: true,
       message: 'Login successful',
       data: responseData
     };
@@ -95,7 +95,7 @@ export class AuthController {
     await this.authService.logout(user.email, token);
 
     return {
-      success: true,
+      // success: true,
       message: 'User logged out successfully',
     };
   }
@@ -122,7 +122,7 @@ export class AuthController {
     const user = req['user'] as {email: string};
     const updatedUser = await this.authService.changePassword(user.email, body);
     return {
-      success: true,
+      // success: true,
       message: 'Password changed successfully',
       data: updatedUser,
     };

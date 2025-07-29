@@ -29,7 +29,7 @@ export class UserController {
         const user = req['user'] as { email: string };
         const userProfile = await this.userService.getUserProfile(user.email);
         return {
-            success: true,
+            // success: true,
             message: 'User profile retrieved successfully',
             data: userProfile,
         };

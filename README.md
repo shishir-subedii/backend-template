@@ -13,4 +13,5 @@ how to use:
 
 - run the project(development): npm run start:dev
 
-later use your own github repo and it's configurations. 
+later use your own github repo and it's configurations.
+you can remove the past commits and start fresh with your own repo. 

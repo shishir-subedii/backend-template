@@ -5,6 +5,7 @@ import { ValidationPipe } from '@nestjs/common';
 import { GlobalExceptionFilter } from './common/filters/global-exception.filter';
 import { ResponseInterceptor } from './common/interceptors/response.interceptor';
 import { NestExpressApplication } from '@nestjs/platform-express';
+import { isProd } from './common/utils/checkMode';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -20,26 +21,28 @@ async function bootstrap() {
       transform: true,      // auto-transform to DTO types
     }),
   );
-
   // Global Interceptor
   app.useGlobalInterceptors(new ResponseInterceptor());
 
   // Global Error Handler
   app.useGlobalFilters(new GlobalExceptionFilter());
-  const config = new DocumentBuilder()
-    .setTitle('Docs for XYZ application')
-    .setDescription('API documentation for XYZ application')
-    .setVersion('1.0')
-    .addBearerAuth(
-      {
-        type: 'http',
-        scheme: 'bearer',
-        bearerFormat: 'JWT',
-      }
-    )
-    .build();
-  const documentFactory = () => SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('swagger', app, documentFactory);
+
+  //TODO: remove console logs in production
+
+  //remove swagger in production
+  
+  if (!isProd()) {
+    const projectName = String(process.env.PROJECT_NAME) || 'NestJS';
+    const config = new DocumentBuilder()
+      .setTitle(`${projectName} API`)
+      .setDescription(`API documentation for project named ${projectName}.`)
+      .setVersion('1.0')
+      .addBearerAuth({ type: 'http', scheme: 'bearer', bearerFormat: 'JWT' })
+      .build();
+
+    const document = SwaggerModule.createDocument(app, config);
+    SwaggerModule.setup('swagger', app, document);
+  }
   await app.listen(process.env.PORT ?? 3002);
 }
 bootstrap();

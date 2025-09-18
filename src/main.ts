@@ -6,6 +6,8 @@ import { GlobalExceptionFilter } from './common/filters/global-exception.filter'
 import { ResponseInterceptor } from './common/interceptors/response.interceptor';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { isProd } from './common/utils/checkMode';
+import { join } from 'path/win32';
+import * as express from 'express';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -29,7 +31,11 @@ async function bootstrap() {
       transform: true,      // auto-transform to DTO types
     }),
   );
+
+  // serve static files from uploads
+  app.use('/uploads', express.static(join(__dirname, '..', 'uploads')));
   // Global Interceptor
+
   app.useGlobalInterceptors(new ResponseInterceptor());
 
   // Global Error Handler

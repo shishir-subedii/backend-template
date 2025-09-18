@@ -12,6 +12,8 @@ async function bootstrap() {
   app.enableCors({
     origin: 'http://localhost:3000'
   })
+
+  //remove console logs in production
   if (isProd()) {
     Logger.overrideLogger(false);
     console.log = () => { };
@@ -33,10 +35,7 @@ async function bootstrap() {
   // Global Error Handler
   app.useGlobalFilters(new GlobalExceptionFilter());
 
-  //TODO: remove console logs in production
-
   //remove swagger in production
-  
   if (!isProd()) {
     const projectName = String(process.env.PROJECT_NAME) || 'NestJS';
     const config = new DocumentBuilder()

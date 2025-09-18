@@ -1,7 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
-import { ValidationPipe } from '@nestjs/common';
+import { Logger, ValidationPipe } from '@nestjs/common';
 import { GlobalExceptionFilter } from './common/filters/global-exception.filter';
 import { ResponseInterceptor } from './common/interceptors/response.interceptor';
 import { NestExpressApplication } from '@nestjs/platform-express';
@@ -12,7 +12,13 @@ async function bootstrap() {
   app.enableCors({
     origin: 'http://localhost:3000'
   })
-
+  if (isProd()) {
+    Logger.overrideLogger(false);
+    console.log = () => { };
+    console.warn = () => { };
+    console.error = () => { };
+    console.debug = () => { };
+  }
   // Global Pipes
   app.useGlobalPipes(
     new ValidationPipe({

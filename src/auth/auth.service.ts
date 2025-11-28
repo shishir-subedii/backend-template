@@ -73,7 +73,7 @@ export class AuthService {
     }
 
     async logout(email: string, token: string) {
-        // ✅ Remove only the current token (per-session logout)
+        // Remove only the current token (per-session logout)
         await this.userService.removeAccessToken(email, token);
     }
 
@@ -98,10 +98,17 @@ export class AuthService {
             {
                 secret: process.env.JWT_ACCESS_SECRET,
                 expiresIn: process.env.JWT_ACCESS_EXPIRE,
-            },
+            }
         );
+        const refreshToken = this.jwt.sign(
+            { id, email, role },
+            {
+                secret: process.env.JWT_REFRESH_SECRET,
+                expiresIn: process.env.JWT_REFRESH_EXPIRE
+            }
+        )
 
-        return { accessToken };
+        return { accessToken, refreshToken };
     }
 
     async changePassword(email: string, body: changePasswordDto) {

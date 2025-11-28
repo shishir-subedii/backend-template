@@ -59,7 +59,7 @@ export class UserService {
     //     return { tempToken: accessToken };
     // }
 
-    //TODO: USE KAFKA TO QUEUE THE EMAIL SENDING TASK.
+    //TODO: USE KAFKA OR BULLMQ TO QUEUE THE EMAIL SENDING TASK.
     async register(userData: UserRegisterDto) {
         return await this.dataSource.transaction(async (manager) => {
             // 1. Check if user exists
